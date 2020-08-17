@@ -34,7 +34,7 @@ def mapBPSK():
     for i in range(0, BPSK.total):
         BPSK.binary()
         length = len(BPSK.bits)
-        if BPSK.bits[length-1] == 1:
+        if BPSK.bits[length - 1] == 1:
             BPSK.symbols.append(1)
         else:
             BPSK.symbols.append(-1)
@@ -42,7 +42,11 @@ def mapBPSK():
     print(BPSK.bits)
     print(BPSK.symbols)
 
-# def map4QAM():
+
+def map4QAM():
+    pass
+
+
 #
 # def map8PSK():
 #
@@ -51,4 +55,3 @@ def mapBPSK():
 # def addNoise():
 
 mapBPSK()
-
