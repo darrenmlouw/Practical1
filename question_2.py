@@ -82,16 +82,19 @@ class GRNG:
         return self.random
 
 
-normal = GRNG()
+# normal = GRNG()
+#
+# a = np.array([])
+# Array = []
+# Max = 1000000
+# total = 0
+#
+# for i in range(0, Max):
+#     Array.append(normal.randomNormal())
+#
+# plt.hist(Array, bins=100)
+# plt.show()
 
-a = np.array([])
-Array = []
-Max = 1000000
-total = 0
 
-for i in range(0, Max):
-    Array.append(normal.randomNormal())
-
-plt.hist(Array, bins=100)
-plt.show()
+#hello MATT
 
