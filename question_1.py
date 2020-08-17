@@ -32,9 +32,11 @@ class PRNG:
         return self.random
 
 
+# CODE FOR THE PDF GRAPH (Leave out if not in use)
+# UNCOMMENT UNTIL ----
 # rand = PRNG()
 # a = np.array([])
-# Max = 10000
+# Max = 100000
 # total = 0
 #
 # for i in range(0, Max):
@@ -44,8 +46,10 @@ class PRNG:
 #     a = np.append(a, TP)
 #
 # print(total/Max)
-# plt.hist(a, bins=40)
+# plt.hist(a, bins=80)
 # plt.show()
+# ----
+
 
 
 
