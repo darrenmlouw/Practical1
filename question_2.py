@@ -92,6 +92,7 @@ for i in range(0, Max):
     Array.append(normal.randomNormal())
 
 plt.hist(Array, bins=100)
+plt.grid()
 plt.show()
 # ----
 
