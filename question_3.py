@@ -29,7 +29,7 @@ QAM4 = Modulation(100, 4)
 PSK8 = Modulation(100, 8)
 QAM16 = Modulation(100, 16)
 
-
+# ----------------------------------------------
 def mapBPSK():
     for i in range(0, BPSK.total):
         BPSK.binary()
