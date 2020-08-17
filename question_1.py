@@ -36,7 +36,7 @@ class PRNG:
 # UNCOMMENT UNTIL ----
 # rand = PRNG()
 # a = np.array([])
-# Max = 100000
+# Max = 1000000
 # total = 0
 #
 # for i in range(0, Max):
