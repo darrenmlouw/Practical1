@@ -99,14 +99,3 @@ class GRNG:
 # plt.hist(Array, bins=80, density=True)
 # plt.show()
 # ----
-
-<<<<<<< Updated upstream
-# Can you see this?
-# Yes i can
-
-# Testing Branches
-
-# hello
-=======
-
->>>>>>> Stashed changes

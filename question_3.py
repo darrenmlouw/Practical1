@@ -2,8 +2,28 @@ import question_1
 import question_2
 import math
 import matplotlib.pyplot as plt
+import cmath
 
 uniform = question_1.PRNG()
+
+dictionary = {
+    "0000": [0, 0, 0, 0],
+    "0001": [0, 0, 0, 1],
+    "0010": [0, 0, 1, 0],
+    "0011": [0, 0, 1, 1],
+    "0100": [0, 1, 0, 0],
+    "0101": [0, 1, 0, 1],
+    "0110": [0, 1, 1, 0],
+    "0111": [0, 1, 1, 1],
+    "1000": [1, 0, 0, 0],
+    "1001": [1, 0, 0, 1],
+    "1010": [1, 0, 1, 0],
+    "1011": [1, 0, 1, 1],
+    "1100": [1, 1, 0, 0],
+    "1101": [1, 1, 0, 1],
+    "1110": [1, 1, 1, 0],
+    "1111": [1, 1, 1, 1]
+}
 
 
 class Modulation:
@@ -31,16 +51,16 @@ class Modulation:
         else:
             self.bits.append(0)
 
+
 norm = question_2.GRNG()
 
-
+# Class Instances (total number of bits, and the M value)
 BPSK = Modulation(10000, 2)
-QAM4 = Modulation(100, 4)
-PSK8 = Modulation(100, 8)
-QAM16 = Modulation(100, 16)
+QAM4 = Modulation(10000, 4)
+PSK8 = Modulation(10000, 8)
+QAM16 = Modulation(10000, 16)
 
 
-# new comment
 def mapBPSK():
     # Converts bits to symbols
     for i in range(0, BPSK.total):
@@ -52,7 +72,7 @@ def mapBPSK():
             BPSK.symbols.append(-1)
 
     for i in range(-4, 13):
-
+        # print(i)
         for j in range(0, BPSK.total):
             # Adding AWGN
             BPSK.sigma = 1/(math.sqrt(10**(i/10)*2*math.log(BPSK.M, 2)))
@@ -77,9 +97,9 @@ def mapBPSK():
 
         BPSK.SER.append(BPSK.symErrorCount/BPSK.total)
         BPSK.BER.append(BPSK.bitErrorCount/BPSK.total)
-        print(BPSK.SER)
-        print(BPSK.BER)
-        print()
+        # print(BPSK.SER)
+        # print(BPSK.BER)
+        # print()
 
         BPSK.bitErrorCount = 0
         BPSK.symErrorCount = 0
@@ -90,19 +110,184 @@ def mapBPSK():
     x = []
     for i in range(-4, 13):
         x.append(i)
-    plt.semilogy(x, BPSK.SER)
-    plt.show()
+    plt.semilogy(x, BPSK.SER, label="BPSK (BER/SER)")
 
 
 def map4QAM():
     pass
 
 
-#
-# def map8PSK():
-#
-# def map16QAM():
-#
-# def addNoise():
+def map8PSK():
+    pass
 
+
+def map16QAM():
+    # Convert to Symbols
+    quad = [0]*4
+    for i in range(0, QAM16.total):
+        QAM16.binary()
+        quad[i % 4] = QAM16.bits[i]
+        if (i % 4 + 1) == 4:
+            if quad[0] == 0 and quad[1] == 0 and quad[2] == 0 and quad[3] == 0:
+                QAM16.symbols.append(complex(-1/(math.sqrt(2)), 1/(math.sqrt(2))))
+            elif quad[0] == 0 and quad[1] == 0 and quad[2] == 0 and quad[3] == 1:
+                QAM16.symbols.append(complex(-1 / (math.sqrt(2)), math.sqrt(2)/6))
+            elif quad[0] == 0 and quad[1] == 0 and quad[2] == 1 and quad[3] == 0:
+                QAM16.symbols.append(complex(-1/(math.sqrt(2)), -1/(math.sqrt(2))))
+            elif quad[0] == 0 and quad[1] == 0 and quad[2] == 1 and quad[3] == 1:
+                QAM16.symbols.append(complex(-1/(math.sqrt(2)), -math.sqrt(2)/6))
+            elif quad[0] == 0 and quad[1] == 1 and quad[2] == 0 and quad[3] == 0:
+                QAM16.symbols.append(complex(-math.sqrt(2)/6, 1/(math.sqrt(2))))
+            elif quad[0] == 0 and quad[1] == 1 and quad[2] == 0 and quad[3] == 1:
+                QAM16.symbols.append(complex(-math.sqrt(2)/6, math.sqrt(2)/6))
+            elif quad[0] == 0 and quad[1] == 1 and quad[2] == 1 and quad[3] == 0:
+                QAM16.symbols.append(complex(-math.sqrt(2)/6, -1/(math.sqrt(2))))
+            elif quad[0] == 0 and quad[1] == 1 and quad[2] == 1 and quad[3] == 1:
+                QAM16.symbols.append(complex(-math.sqrt(2)/6, -math.sqrt(2)/6))
+            elif quad[0] == 1 and quad[1] == 0 and quad[2] == 0 and quad[3] == 0:
+                QAM16.symbols.append(complex(1/(math.sqrt(2)), 1/(math.sqrt(2))))
+            elif quad[0] == 1 and quad[1] == 0 and quad[2] == 0 and quad[3] == 1:
+                QAM16.symbols.append(complex(1/(math.sqrt(2)), math.sqrt(2)/6))
+            elif quad[0] == 1 and quad[1] == 0 and quad[2] == 1 and quad[3] == 0:
+                QAM16.symbols.append(complex(1/(math.sqrt(2)), -1/(math.sqrt(2))))
+            elif quad[0] == 1 and quad[1] == 0 and quad[2] == 1 and quad[3] == 1:
+                QAM16.symbols.append(complex(1/(math.sqrt(2)), -math.sqrt(2)/6))
+            elif quad[0] == 1 and quad[1] == 1 and quad[2] == 0 and quad[3] == 0:
+                QAM16.symbols.append(complex(math.sqrt(2)/6, 1/(math.sqrt(2))))
+            elif quad[0] == 1 and quad[1] == 1 and quad[2] == 0 and quad[3] == 1:
+                QAM16.symbols.append(complex(math.sqrt(2)/6, math.sqrt(2)/6))
+            elif quad[0] == 1 and quad[1] == 1 and quad[2] == 1 and quad[3] == 0:
+                QAM16.symbols.append(complex(math.sqrt(2)/6, -1/(math.sqrt(2))))
+            elif quad[0] == 1 and quad[1] == 1 and quad[2] == 1 and quad[3] == 1:
+                QAM16.symbols.append(complex(math.sqrt(2)/6, -math.sqrt(2)/6))
+
+    # print(QAM16.bits)
+    # print(QAM16.symbols)
+    # print(len(QAM16.symbols))
+
+    for i in range(-4, 13):
+        # print(i)
+        for j in range(0, int((QAM16.total)/4)):
+            # Adding AWGN
+            QAM16.sigma = 1/(math.sqrt(10**(i/10)*2*math.log(QAM16.M, 2)))
+            QAM16.rk.append(QAM16.symbols[j] + QAM16.sigma * complex(norm.randomNormal(), norm.randomNormal()))
+
+            value = abs(QAM16.rk[j] - (complex(-1/(math.sqrt(2)), 1/(math.sqrt(2)))))
+            tempSym = "0000"
+            tempValue = abs(QAM16.rk[j] - (complex(-1 / (math.sqrt(2)), math.sqrt(2)/6)))
+            if tempValue < value:
+                value = tempValue
+                tempSym = "0001"
+
+            tempValue = abs(QAM16.rk[j] - (complex(-1/(math.sqrt(2)), -1/(math.sqrt(2)))))
+            if tempValue < value:
+                value = tempValue
+                tempSym = "0010"
+
+            tempValue = abs(QAM16.rk[j] - (complex(-1/(math.sqrt(2)), -math.sqrt(2)/6)))
+            if tempValue < value:
+                value = tempValue
+                tempSym = "0011"
+
+            tempValue = abs(QAM16.rk[j] - (complex(-math.sqrt(2)/6, 1/(math.sqrt(2)))))
+            if tempValue < value:
+                value = tempValue
+                tempSym = "0100"
+            tempValue = abs(QAM16.rk[j] - (complex(-math.sqrt(2)/6, math.sqrt(2)/6)))
+            if tempValue < value:
+                value = tempValue
+                tempSym = "0101"
+            tempValue = abs(QAM16.rk[j] - (complex(-math.sqrt(2)/6, -1/(math.sqrt(2)))))
+            if tempValue < value:
+                value = tempValue
+                tempSym = "0110"
+            tempValue = abs(QAM16.rk[j] - (complex(-math.sqrt(2)/6, -math.sqrt(2)/6)))
+            if tempValue < value:
+                value = tempValue
+                tempSym = "0111"
+            tempValue = abs(QAM16.rk[j] - (complex(1/(math.sqrt(2)), 1/(math.sqrt(2)))))
+            if tempValue < value:
+                value = tempValue
+                tempSym = "1000"
+            tempValue = abs(QAM16.rk[j] - (complex(1/(math.sqrt(2)), math.sqrt(2)/6)))
+            if tempValue < value:
+                value = tempValue
+                tempSym = "1001"
+            tempValue = abs(QAM16.rk[j] - (complex(1/(math.sqrt(2)), -1/(math.sqrt(2)))))
+            if tempValue < value:
+                value = tempValue
+                tempSym = "1010"
+            tempValue = abs(QAM16.rk[j] - (complex(1/(math.sqrt(2)), -math.sqrt(2)/6)))
+            if tempValue < value:
+                value = tempValue
+                tempSym = "1011"
+            tempValue = abs(QAM16.rk[j] - (complex(math.sqrt(2)/6, 1/(math.sqrt(2)))))
+            if tempValue < value:
+                value = tempValue
+                tempSym = "1100"
+            tempValue = abs(QAM16.rk[j] - (complex(math.sqrt(2)/6, math.sqrt(2)/6)))
+            if tempValue < value:
+                value = tempValue
+                tempSym = "1101"
+            tempValue = abs(QAM16.rk[j] - (complex(math.sqrt(2)/6, -1/(math.sqrt(2)))))
+            if tempValue < value:
+                value = tempValue
+                tempSym = "1110"
+            tempValue = abs(QAM16.rk[j] - (complex(math.sqrt(2)/6, -math.sqrt(2)/6)))
+            if tempValue < value:
+                value = tempValue
+                tempSym = "1111"
+
+            QAM16.transmittedBits.extend(dictionary.get(tempSym))
+
+        for j in range(0, QAM16.total):
+            if QAM16.bits[j] != QAM16.transmittedBits[j]:
+                QAM16.bitErrorCount += 1
+
+            tempArray1 = ["X"]*4
+            tempArray2 = ["X"]*4
+
+            tempArray1[j % 4] = QAM16.bits[j]
+            tempArray2[j % 4] = QAM16.transmittedBits[j]
+            if (j % 4 + 1) == 4:
+                if tempArray1 != tempArray2:
+                    QAM16.symErrorCount += 1
+
+        QAM16.SER.append(QAM16.symErrorCount/(QAM16.total/4))
+
+
+        QAM16.BER.append(QAM16.bitErrorCount/QAM16.total)
+
+        # print(QAM16.BER)
+        # print(QAM16.symbols)
+        # print(QAM16.transmittedSymbols)
+        # print(QAM16.bits)
+        # print(QAM16.transmittedBits)
+        # print()
+
+        QAM16.symErrorCount = 0
+        QAM16.bitErrorCount = 0
+        QAM16.transmittedBits = []
+        QAM16.transmittedSymbols = []
+        QAM16.rk = []
+
+    x = []
+    for i in range(-4, 13):
+        x.append(i)
+    plt.semilogy(x, QAM16.BER, 'g--', label="16QAM BER")
+    plt.semilogy(x, QAM16.SER, 'g-', label="16QAM SER")
+
+
+# Main of the Program
+# Increase number of bits in class instances above to create better line
+# Uncomment the function in which you wish to call
 mapBPSK()
+map4QAM()
+map8PSK()
+map16QAM()
+
+# Plotting the Graphs using semilogy
+plt.xlabel("Eb/No (dB)")
+plt.ylabel("BER and SER")
+plt.legend()
+plt.show()

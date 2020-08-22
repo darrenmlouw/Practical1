@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 
 class PRNG:
     def __init__(self):
-        self.x = 100
+        self.x = 1
         self.y = 10000
-        self.z = 3000
+        self.z = 300
         self.temp = 0
         self.random = 0
 
@@ -32,27 +32,10 @@ class PRNG:
 
 
 # CODE FOR THE PDF GRAPH (Leave out if not in use)
-# UNCOMMENT UNTIL ----
-<<<<<<< Updated upstream
-print("Start")
-rand = PRNG()
-a = np.array([])
-Max = 1000000
-total = 0
-
-for i in range(0, Max):
-    value = rand.randomUniform()
-    total += value
-    TP = np.array([value])
-    a = np.append(a, TP)
-
-print(total / Max)
-plt.hist(a, bins=80)
-plt.show()
-=======
+#UNCOMMENT UNTIL ----
 # rand = PRNG()
 # a = []
-# Max = 10000000
+# Max = 1000000
 # total = 0
 #
 # for i in range(0, Max):
@@ -60,7 +43,4 @@ plt.show()
 #
 # plt.hist(a, bins=80, density=True)
 # plt.show()
->>>>>>> Stashed changes
 # ----
-
-print("Test")
