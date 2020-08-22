@@ -14,7 +14,7 @@ class PRNG:
 
     def randomUniform(self):
         # X Component
-        self.x = 171*(self.x % 177) - 2 * (self.x/177)
+        self.x = 171 * (self.x % 177) - 2 * (self.x / 177)
         if self.x < 0:
             self.x = self.x + 30269
         # Y Component
@@ -26,7 +26,7 @@ class PRNG:
         if self.z < 0:
             self.z = self.z + 30323
         # Addition of X, Y and Z Variable
-        self.temp = self.x/30269 + self.y/30307 + self.z/30323
+        self.temp = self.x / 30269 + self.y / 30307 + self.z / 30323
         self.random = self.temp - math.trunc(self.temp)
 
         return self.random
@@ -34,43 +34,21 @@ class PRNG:
 
 # CODE FOR THE PDF GRAPH (Leave out if not in use)
 # UNCOMMENT UNTIL ----
-# rand = PRNG()
-# a = np.array([])
-# Max = 1000000
-# total = 0
-#
-# for i in range(0, Max):
-#     value = rand.randomUniform()
-#     total += value
-#     TP = np.array([value])
-#     a = np.append(a, TP)
-#
-# print(total/Max)
-# plt.hist(a, bins=80)
-# plt.show()
+print("Start")
+rand = PRNG()
+a = np.array([])
+Max = 1000000
+total = 0
+
+for i in range(0, Max):
+    value = rand.randomUniform()
+    total += value
+    TP = np.array([value])
+    a = np.append(a, TP)
+
+print(total / Max)
+plt.hist(a, bins=80)
+plt.show()
 # ----
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+print("Test")

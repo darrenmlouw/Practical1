@@ -5,6 +5,7 @@ import question_1
 
 rand = question_1.PRNG()
 
+
 class GRNG:
     def __init__(self):
         self.probability = 0
@@ -30,33 +31,35 @@ class GRNG:
         self.negative1 = rand.randomUniform()
         self.negative2 = rand.randomUniform()
         if self.negative1 > 0.5:
-            self.v1 = -1*self.v1
+            self.v1 = -1 * self.v1
 
         if self.negative2 > 0.5:
-            self.v2 = -1*self.v2
+            self.v2 = -1 * self.v2
 
     def S3(self):
         if abs(self.x) < 1:
-            self.g3 = 17.49731196 * math.exp(-0.5 * self.x * self.x) - 4.73570326 * (3 - self.x * self.x) - 2.15787544*(1.5 - abs(self.x))
+            self.g3 = 17.49731196 * math.exp(-0.5 * self.x * self.x) - 4.73570326 * (
+                    3 - self.x * self.x) - 2.15787544 * (1.5 - abs(self.x))
 
         elif 1 < abs(self.x) < 1.5:
-            self.g3 = 17.49731196 * math.exp(-0.5 * self.x * self.x) - 2.36785163*pow(3 - abs(self.x), 2) - 2.15787544*(1.5 - abs(self.x))
+            self.g3 = 17.49731196 * math.exp(-0.5 * self.x * self.x) - 2.36785163 * pow(3 - abs(self.x),
+                                                                                        2) - 2.15787544 * (
+                              1.5 - abs(self.x))
 
         elif 1.5 < abs(self.x) < 3:
             self.g3 = 17.49731196 * math.exp(-0.5 * self.x * self.x) - 2.36785163 * pow(3 - abs(self.x), 2)
         elif abs(self.x) > 3:
             self.g3 = 0
 
-
     def randomNormal(self):
         self.getNewProb()
 
         # Step 1
         if self.probability < 0.8638:
-            self.random = 2*(self.u1 + self.u2 + self.u3 - 1.5)
+            self.random = 2 * (self.u1 + self.u2 + self.u3 - 1.5)
         # Step 2
         elif 0.9745 > self.probability >= 0.8638:
-            self.random = 1.5*(self.u1 + self.u2 - 1)
+            self.random = 1.5 * (self.u1 + self.u2 - 1)
         # Step 3
         elif 0.9973002039 > self.probability >= 0.9745:
             self.y = 1
@@ -71,8 +74,10 @@ class GRNG:
         else:
             while abs(self.x) < 3 and abs(self.y) < 3:
                 self.getNewProb()
-                self.x = self.v1*((9-2*math.log((self.v1**2 + self.v2**2), 10))/(self.v1**2 + self.v2**2))**0.5
-                self.y = self.v2*((9-2*math.log((self.v1**2 + self.v2**2), 10))/(self.v1**2 + self.v2**2))**0.5
+                self.x = self.v1 * ((9 - 2 * math.log((self.v1 ** 2 + self.v2 ** 2), 10)) / (
+                        self.v1 ** 2 + self.v2 ** 2)) ** 0.5
+                self.y = self.v2 * ((9 - 2 * math.log((self.v1 ** 2 + self.v2 ** 2), 10)) / (
+                        self.v1 ** 2 + self.v2 ** 2)) ** 0.5
 
             if abs(self.x) > 3:
                 self.random = self.x
@@ -80,6 +85,7 @@ class GRNG:
                 self.random = self.y
 
         return self.random
+
 
 # CODE FOR THE PDF GRAPH (Leave out if not in use)
 # UNCOMMENT UNTIL ----
@@ -101,5 +107,4 @@ plt.show()
 
 # Testing Branches
 
-#hello
-
+# hello
