@@ -1,12 +1,11 @@
 import math
-
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 class PRNG:
     def __init__(self):
-        self.x = 1
+        self.x = 100
         self.y = 10000
         self.z = 3000
         self.temp = 0
@@ -34,6 +33,7 @@ class PRNG:
 
 # CODE FOR THE PDF GRAPH (Leave out if not in use)
 # UNCOMMENT UNTIL ----
+<<<<<<< Updated upstream
 print("Start")
 rand = PRNG()
 a = np.array([])
@@ -49,6 +49,18 @@ for i in range(0, Max):
 print(total / Max)
 plt.hist(a, bins=80)
 plt.show()
+=======
+# rand = PRNG()
+# a = []
+# Max = 10000000
+# total = 0
+#
+# for i in range(0, Max):
+#     a.append(rand.randomUniform())
+#
+# plt.hist(a, bins=80, density=True)
+# plt.show()
+>>>>>>> Stashed changes
 # ----
 
 print("Test")

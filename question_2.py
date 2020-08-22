@@ -89,22 +89,24 @@ class GRNG:
 
 # CODE FOR THE PDF GRAPH (Leave out if not in use)
 # UNCOMMENT UNTIL ----
-normal = GRNG()
-a = np.array([])
-Array = []
-Max = 10000000
-total = 0
-for i in range(0, Max):
-    Array.append(normal.randomNormal())
-
-plt.hist(Array, bins=100)
-plt.grid()
-plt.show()
+# normal = GRNG()
+# Array = []
+# Max = 1000000
+# total = 0
+# for i in range(0, Max):
+#     Array.append(normal.randomNormal())
+#
+# plt.hist(Array, bins=80, density=True)
+# plt.show()
 # ----
 
+<<<<<<< Updated upstream
 # Can you see this?
 # Yes i can
 
 # Testing Branches
 
 # hello
+=======
+
+>>>>>>> Stashed changes
