@@ -1,5 +1,4 @@
 import math
-
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -8,7 +7,7 @@ class PRNG:
     def __init__(self):
         self.x = 1
         self.y = 10000
-        self.z = 3000
+        self.z = 300
         self.temp = 0
         self.random = 0
 
@@ -52,5 +51,3 @@ print(total / Max)
 plt.hist(a, bins=80)
 plt.show()
 # ----
-
-print("Test")
