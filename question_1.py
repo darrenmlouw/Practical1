@@ -41,6 +41,8 @@ Max = 1000000
 total = 0
 
 for i in range(0, Max):
+    if i % 10000:
+        print(i, end=",\t")
     value = rand.randomUniform()
     total += value
     TP = np.array([value])
