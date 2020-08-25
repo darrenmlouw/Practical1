@@ -265,8 +265,8 @@ def map8PSK():
     x = []
     for i in range(-4, 13):
         x.append(i)
-    plt.semilogy(x, PSK8.BER, 'g--', label="8PSK BER")
-    plt.semilogy(x, PSK8.SER, 'g-', label="8PSK SER")
+    plt.semilogy(x, PSK8.BER, 'm--', label="8PSK BER")
+    plt.semilogy(x, PSK8.SER, 'm-', label="8PSK SER")
 
 
 def map16QAM():
@@ -429,10 +429,10 @@ def map16QAM():
 # Increase number of bits in class instances above to create better line
 # Uncomment the function in which you wish to call
 print("Start")
-# mapBPSK()
-# map4QAM()
+mapBPSK()
+map4QAM()
 map8PSK()
-# map16QAM()
+map16QAM()
 
 print("Done")
 # Plotting the Graphs using semilogy
