@@ -74,12 +74,13 @@ class Modulation:
 norm = question_2.GRNG()
 
 # Class Instances (total number of bits, and the M value)
-BPSK = Modulation(3000000, 2)
-QAM4 = Modulation(3000000, 4)
-PSK8 = Modulation(3000000, 8)
-QAM16 = Modulation(3000000, 16)
+BPSK = Modulation(1000000, 2)
+QAM4 = Modulation(1000000, 4)
+PSK8 = Modulation(1000002, 8)
+QAM16 = Modulation(1000000, 16)
 
 
+# new comment
 def mapBPSK():
     # Converts bits to symbols
     for i in range(0, BPSK.total):
@@ -91,7 +92,7 @@ def mapBPSK():
             BPSK.symbols.append(-1)
 
     for i in range(-4, 13):
-        # print(i)
+        print(i)
         for j in range(0, BPSK.total):
             # Adding AWGN
             BPSK.sigma = 1 / (math.sqrt(10 ** (i / 10) * 2 * math.log(BPSK.M, 2)))
@@ -154,6 +155,7 @@ def map4QAM():
 
     # print(QAM4.symbols)
     for i in range(-4, 13):
+        print(i)
         for j in range(int(QAM4.total / 2)):
             # Adding Gaussian Noise
             QAM4.sigma = 1 / (math.sqrt(10 ** (i / 10) * 2 * math.log2(QAM4.M)))
@@ -271,6 +273,7 @@ def map8PSK():
             #     PSK8.symbols.append(complex(1 / math.sqrt(2), -1 / math.sqrt(2)))
 
     for i in range(-4, 13):
+        print(i)
         for j in range(int(PSK8.total / 3)):
             # Adding Gaussian Noise
             PSK8.sigma = 1 / (math.sqrt(10 ** (i / 10) * 2 * math.log2(PSK8.M)))
@@ -401,6 +404,7 @@ def map16QAM():
     # print(len(QAM16.symbols))
 
     for i in range(-4, 13):
+        print(i)
         # print(i)
         for j in range(0, int(QAM16.total / 4)):
             # Adding AWGN
@@ -512,10 +516,10 @@ def map16QAM():
     plt.semilogy(x, QAM16.SER, 'g-', label="16QAM SER")
 
 
+
 # Main of the Program
 # Increase number of bits in class instances above to create better line
 # Uncomment the function in which you wish to call
-print("Start")
 mapBPSK()
 print("Done BPSK")
 map4QAM()
@@ -523,10 +527,9 @@ print("Done 4QAM")
 map8PSK()
 print("Done 8PSK")
 map16QAM()
-print("Done 16QAM")
-
 # Plotting the Graphs using semilogy
 plt.xlabel("Eb/No (dB)")
 plt.ylabel("BER and SER")
 plt.legend()
 plt.show()
+
