@@ -74,10 +74,10 @@ class Modulation:
 norm = question_2.GRNG()
 
 # Class Instances (total number of bits, and the M value)
-BPSK = Modulation(10000, 2)
-QAM4 = Modulation(10000, 4)
-PSK8 = Modulation(10002, 8)
-QAM16 = Modulation(10000, 16)
+BPSK = Modulation(3000000, 2)
+QAM4 = Modulation(3000000, 4)
+PSK8 = Modulation(3000000, 8)
+QAM16 = Modulation(3000000, 16)
 
 
 def mapBPSK():
@@ -515,13 +515,16 @@ def map16QAM():
 # Main of the Program
 # Increase number of bits in class instances above to create better line
 # Uncomment the function in which you wish to call
-print("start")
+print("Start")
 mapBPSK()
+print("Done BPSK")
 map4QAM()
+print("Done 4QAM")
 map8PSK()
+print("Done 8PSK")
 map16QAM()
+print("Done 16QAM")
 
-print("Done")
 # Plotting the Graphs using semilogy
 plt.xlabel("Eb/No (dB)")
 plt.ylabel("BER and SER")
