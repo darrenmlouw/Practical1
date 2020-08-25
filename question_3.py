@@ -14,6 +14,17 @@ qam4Dict = {
     "11": [1, 1]
 }
 
+psk8Dict = {
+    "000": [0, 0, 0],
+    "001": [0, 0, 1],
+    "010": [0, 1, 0],
+    "011": [0, 1, 1],
+    "100": [1, 0, 0],
+    "101": [1, 0, 1],
+    "110": [1, 1, 0],
+    "111": [1, 1, 1]
+}
+
 dictionary = {
     "0000": [0, 0, 0, 0],
     "0001": [0, 0, 0, 1],
@@ -65,7 +76,7 @@ norm = question_2.GRNG()
 # Class Instances (total number of bits, and the M value)
 BPSK = Modulation(10000, 2)
 QAM4 = Modulation(10000, 4)
-PSK8 = Modulation(10000, 8)
+PSK8 = Modulation(21, 8)
 QAM16 = Modulation(10000, 16)
 
 
@@ -205,7 +216,144 @@ def map4QAM():
 
 
 def map8PSK():
-    pass
+    # Converting bits to symbols
+    tri = [0] * 3
+    for i in range(PSK8.total):
+        PSK8.binary()
+        tri[i % 3] = PSK8.bits[i]
+        if (i % 3 + 1) == 3:
+            if tri[0] == 0 and tri[1] == 0 and tri[2] == 0:
+                PSK8.symbols.append(complex(1, 0))
+
+            elif tri[0] == 0 and tri[1] == 0 and tri[2] == 1:
+                PSK8.symbols.append(complex(1 / math.sqrt(2), 1 / math.sqrt(2)))
+
+            elif tri[0] == 0 and tri[1] == 1 and tri[2] == 1:
+                PSK8.symbols.append(complex(0, 1))
+
+            elif tri[0] == 0 and tri[1] == 1 and tri[2] == 0:
+                PSK8.symbols.append(complex(-1 / math.sqrt(2), 1 / math.sqrt(2)))
+
+            elif tri[0] == 1 and tri[1] == 1 and tri[2] == 0:
+                PSK8.symbols.append(complex(-1, 0))
+
+            elif tri[0] == 1 and tri[1] == 1 and tri[2] == 1:
+                PSK8.symbols.append(complex(-1 / math.sqrt(2), -1 / math.sqrt(2)))
+
+            elif tri[0] == 1 and tri[1] == 0 and tri[2] == 1:
+                PSK8.symbols.append(complex(0, -1))
+
+            elif tri[0] == 1 and tri[1] == 0 and tri[2] == 0:
+                PSK8.symbols.append(complex(1 / math.sqrt(2), -1 / math.sqrt(2)))
+
+            # if tri[0] == 0 and tri[1] == 0 and tri[2] == 0:
+            #     PSK8.symbols.append(complex(1, 0))
+            #
+            # elif tri[0] == 1 and tri[1] == 0 and tri[2] == 0:
+            #     PSK8.symbols.append(complex(1 / math.sqrt(2), 1 / math.sqrt(2)))
+            #
+            # elif tri[0] == 1 and tri[1] == 1 and tri[2] == 0:
+            #     PSK8.symbols.append(complex(0, 1))
+            #
+            # elif tri[0] == 0 and tri[1] == 1 and tri[2] == 0:
+            #     PSK8.symbols.append(complex(-1 / math.sqrt(2), 1 / math.sqrt(2)))
+            #
+            # elif tri[0] == 0 and tri[1] == 1 and tri[2] == 1:
+            #     PSK8.symbols.append(complex(-1, 0))
+            #
+            # elif tri[0] == 1 and tri[1] == 1 and tri[2] == 1:
+            #     PSK8.symbols.append(complex(-1 / math.sqrt(2), -1 / math.sqrt(2)))
+            #
+            # elif tri[0] == 1 and tri[1] == 0 and tri[2] == 1:
+            #     PSK8.symbols.append(complex(0, -1))
+            #
+            # elif tri[0] == 0 and tri[1] == 0 and tri[2] == 1:
+            #     PSK8.symbols.append(complex(1 / math.sqrt(2), -1 / math.sqrt(2)))
+
+    for i in range(-4, 13):
+        for j in range(int(PSK8.total / 3)):
+            # Adding Gaussian Noise
+            PSK8.sigma = 1 / (math.sqrt(10 ** (i / 10) * 2 * math.log2(PSK8.M)))
+            PSK8.rk.append(PSK8.symbols[j] + PSK8.sigma * complex(norm.randomNormal(), norm.randomNormal()))
+
+            # Calculating the Euclidean Distance to each point
+            value = abs(PSK8.rk[j] - complex(1, 0))
+            tempSymbol = "000"
+
+            # Checking 001
+            tempValue = abs(PSK8.rk[j] - complex(1 / math.sqrt(2), 1 / math.sqrt(2)))
+            if tempValue < value:
+                value = tempValue
+                tempSymbol = "001"
+
+            # Checking 011
+            tempValue = abs(PSK8.rk[j] - complex(0, 1))
+            if tempValue < value:
+                value = tempValue
+                tempSymbol = "011"
+
+            # Checking 010
+            tempValue = abs(PSK8.rk[j] - complex(-1 / math.sqrt(2), 1 / math.sqrt(2)))
+            if tempValue < value:
+                value = tempValue
+                tempSymbol = "010"
+
+            # Checking 110
+            tempValue = abs(PSK8.rk[j] - complex(-1, 0))
+            if tempValue < value:
+                value = tempValue
+                tempSymbol = "110"
+
+            # Checking 111
+            tempValue = abs(PSK8.rk[j] - complex(-1 / math.sqrt(2), -1 / math.sqrt(2)))
+            if tempValue < value:
+                value = tempValue
+                tempSymbol = "111"
+
+            # Checking 101
+            tempValue = abs(PSK8.rk[j] - complex(0, -1))
+            if tempValue < value:
+                value = tempValue
+                tempSymbol = "101"
+
+            # Checking 100
+            tempValue = abs(PSK8.rk[j] - complex(1 / math.sqrt(2), -1 / math.sqrt(2)))
+            if tempValue < value:
+                value = tempValue
+                tempSymbol = "100"
+
+            PSK8.transmittedBits.extend(psk8Dict.get(tempSymbol))
+
+        # Calculating bit error
+        for j in range(PSK8.total):
+            if PSK8.bits[j] != PSK8.transmittedBits[j]:
+                PSK8.bitErrorCount += 1
+
+            temp1 = ["X"] * 3
+            temp2 = ["X"] * 3
+
+            temp1[j % 3] = PSK8.bits[j]
+            temp2[j % 3] = PSK8.transmittedBits[j]
+            if (j % 3 + 1) == 3:
+                if temp1 != temp2:
+                    PSK8.symErrorCount += 1
+
+        PSK8.SER.append(PSK8.symErrorCount / (PSK8.total / 3))
+
+        PSK8.BER.append(PSK8.bitErrorCount / PSK8.total)
+
+        PSK8.symErrorCount = 0
+        PSK8.bitErrorCount = 0
+        PSK8.transmittedBits = []
+        PSK8.transmittedSymbols = []
+        PSK8.rk = []
+
+    # # Plotting the SER and BER for 8PSK
+    x = []
+    for i in range(-4, 13):
+        x.append(i)
+    plt.semilogy(x, PSK8.BER, 'm--', label="8PSK BER")
+    plt.semilogy(x, PSK8.SER, 'm-', label="8PSK SER")
 
 
 def map16QAM():
@@ -368,12 +516,14 @@ def map16QAM():
 # Increase number of bits in class instances above to create better line
 # Uncomment the function in which you wish to call
 print("start")
+print("Start")
 mapBPSK()
 map4QAM()
 map8PSK()
 map16QAM()
 print("Done")
 
+print("Done")
 # Plotting the Graphs using semilogy
 plt.xlabel("Eb/No (dB)")
 plt.ylabel("BER and SER")
