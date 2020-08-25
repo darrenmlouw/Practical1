@@ -68,7 +68,7 @@ norm = question_2.GRNG()
 # Class Instances (total number of bits, and the M value)
 BPSK = Modulation(10000, 2)
 QAM4 = Modulation(10000, 4)
-PSK8 = Modulation(10000, 8)
+PSK8 = Modulation(21, 8)
 QAM16 = Modulation(10000, 16)
 
 
@@ -158,6 +158,30 @@ def map8PSK():
 
             elif tri[0] == 1 and tri[1] == 0 and tri[2] == 0:
                 PSK8.symbols.append(complex(1 / math.sqrt(2), -1 / math.sqrt(2)))
+
+            # if tri[0] == 0 and tri[1] == 0 and tri[2] == 0:
+            #     PSK8.symbols.append(complex(1, 0))
+            #
+            # elif tri[0] == 1 and tri[1] == 0 and tri[2] == 0:
+            #     PSK8.symbols.append(complex(1 / math.sqrt(2), 1 / math.sqrt(2)))
+            #
+            # elif tri[0] == 1 and tri[1] == 1 and tri[2] == 0:
+            #     PSK8.symbols.append(complex(0, 1))
+            #
+            # elif tri[0] == 0 and tri[1] == 1 and tri[2] == 0:
+            #     PSK8.symbols.append(complex(-1 / math.sqrt(2), 1 / math.sqrt(2)))
+            #
+            # elif tri[0] == 0 and tri[1] == 1 and tri[2] == 1:
+            #     PSK8.symbols.append(complex(-1, 0))
+            #
+            # elif tri[0] == 1 and tri[1] == 1 and tri[2] == 1:
+            #     PSK8.symbols.append(complex(-1 / math.sqrt(2), -1 / math.sqrt(2)))
+            #
+            # elif tri[0] == 1 and tri[1] == 0 and tri[2] == 1:
+            #     PSK8.symbols.append(complex(0, -1))
+            #
+            # elif tri[0] == 0 and tri[1] == 0 and tri[2] == 1:
+            #     PSK8.symbols.append(complex(1 / math.sqrt(2), -1 / math.sqrt(2)))
 
     for i in range(-4, 13):
         for j in range(int(PSK8.total / 3)):
