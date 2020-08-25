@@ -3,8 +3,16 @@ import question_2
 import math
 import matplotlib.pyplot as plt
 import cmath
+from numpy import linspace, asarray
 
 uniform = question_1.PRNG()
+
+qam4Dict = {
+    "00": [0, 0],
+    "01": [0, 1],
+    "10": [1, 0],
+    "11": [1, 1]
+}
 
 psk8Dict = {
     "000": [0, 0, 0],
@@ -125,7 +133,86 @@ def mapBPSK():
 
 
 def map4QAM():
-    pass
+    # Converting bits to symbols
+    duo = [0] * 2
+    for i in range(QAM4.total):
+        QAM4.binary()
+        duo[i % 2] = QAM4.bits[i]
+        if (i % 2 + 1) == 2:
+            # print(duo)
+            if duo[0] == 0 and duo[1] == 0:
+                QAM4.symbols.append(complex(1 / math.sqrt(2), 1 / math.sqrt(2)))
+
+            elif duo[0] == 0 and duo[1] == 1:
+                QAM4.symbols.append(complex(-1 / math.sqrt(2), 1 / math.sqrt(2)))
+
+            elif duo[0] == 1 and duo[1] == 1:
+                QAM4.symbols.append(complex(-1 / math.sqrt(2), -1 / math.sqrt(2)))
+
+            elif duo[0] == 1 and duo[1] == 0:
+                QAM4.symbols.append(complex(1 / math.sqrt(2), -1 / math.sqrt(2)))
+
+    # print(QAM4.symbols)
+    for i in range(-4, 13):
+        for j in range(int(QAM4.total / 2)):
+            # Adding Gaussian Noise
+            QAM4.sigma = 1 / (math.sqrt(10 ** (i / 10) * 2 * math.log2(QAM4.M)))
+            QAM4.rk.append(QAM4.symbols[j] + QAM4.sigma * complex(norm.randomNormal(), norm.randomNormal()))
+
+            # Calculating the Euclidean Distance to each point
+            value = abs(QAM4.rk[j] - complex(1 / math.sqrt(2), 1 / math.sqrt(2)))
+            tempSymbol = "00"
+
+            # Checking 01
+            tempValue = abs(QAM4.rk[j] - complex(-1 / math.sqrt(2), 1 / math.sqrt(2)))
+            if tempValue < value:
+                value = tempValue
+                tempSymbol = "01"
+
+            # Checking 11
+            tempValue = abs(QAM4.rk[j] - complex(-1 / math.sqrt(2), -1 / math.sqrt(2)))
+            if tempValue < value:
+                value = tempValue
+                tempSymbol = "11"
+
+            # Checking 10
+            tempValue = abs(QAM4.rk[j] - complex(1 / math.sqrt(2), -1 / math.sqrt(2)))
+            if tempValue < value:
+                value = tempValue
+                tempSymbol = "10"
+
+            QAM4.transmittedBits.extend(qam4Dict.get(tempSymbol))
+
+        # Calculating bit error
+        for j in range(QAM4.total):
+            if QAM4.bits[j] != QAM4.transmittedBits[j]:
+                QAM4.bitErrorCount += 1
+
+            temp1 = ["X"] * 2
+            temp2 = ["X"] * 2
+
+            temp1[j % 2] = QAM4.bits[j]
+            temp2[j % 2] = QAM4.transmittedBits[j]
+            if (j % 2 + 1) == 2:
+                if temp1 != temp2:
+                    QAM4.symErrorCount += 1
+
+        QAM4.SER.append(QAM4.symErrorCount / (QAM4.total / 2))
+
+        QAM4.BER.append(QAM4.bitErrorCount / QAM4.total)
+
+        QAM4.symErrorCount = 0
+        QAM4.bitErrorCount = 0
+        QAM4.transmittedBits = []
+        QAM4.transmittedSymbols = []
+        QAM4.rk = []
+
+    # Plotting the SER and BER for 4QAM
+    x = []
+    for i in range(-4, 13):
+        x.append(i)
+    plt.semilogy(x, QAM4.BER, 'r--', label="4QAM BER")
+    plt.semilogy(x, QAM4.SER, 'r-', label="4QAM SER")
 
 
 def map8PSK():
@@ -265,8 +352,8 @@ def map8PSK():
     x = []
     for i in range(-4, 13):
         x.append(i)
-    plt.semilogy(x, PSK8.BER, 'g--', label="8PSK BER")
-    plt.semilogy(x, PSK8.SER, 'g-', label="8PSK SER")
+    plt.semilogy(x, PSK8.BER, 'm--', label="8PSK BER")
+    plt.semilogy(x, PSK8.SER, 'm-', label="8PSK SER")
 
 
 def map16QAM():
@@ -428,11 +515,11 @@ def map16QAM():
 # Main of the Program
 # Increase number of bits in class instances above to create better line
 # Uncomment the function in which you wish to call
-print("Start")
-# mapBPSK()
-# map4QAM()
+print("start")
+mapBPSK()
+map4QAM()
 map8PSK()
-# map16QAM()
+map16QAM()
 
 print("Done")
 # Plotting the Graphs using semilogy
