@@ -76,7 +76,7 @@ norm = question_2.GRNG()
 # Class Instances (total number of bits, and the M value)
 BPSK = Modulation(10000, 2)
 QAM4 = Modulation(10000, 4)
-PSK8 = Modulation(21, 8)
+PSK8 = Modulation(10002, 8)
 QAM16 = Modulation(10000, 16)
 
 
@@ -129,7 +129,7 @@ def mapBPSK():
     x = []
     for i in range(-4, 13):
         x.append(i)
-    plt.semilogy(x, BPSK.SER, label="BPSK (BER/SER)")
+    plt.semilogy(x, BPSK.SER, 'b', label="BPSK (BER/SER)")
 
 
 def map4QAM():
