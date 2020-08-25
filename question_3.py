@@ -516,12 +516,10 @@ def map16QAM():
 # Increase number of bits in class instances above to create better line
 # Uncomment the function in which you wish to call
 print("start")
-print("Start")
 mapBPSK()
 map4QAM()
 map8PSK()
 map16QAM()
-print("Done")
 
 print("Done")
 # Plotting the Graphs using semilogy
