@@ -33,21 +33,21 @@ class PRNG:
 
 # CODE FOR THE PDF GRAPH (Leave out if not in use)
 # UNCOMMENT UNTIL ----
-print("Start")
-rand = PRNG()
-a = np.array([])
-Max = 1000000
-total = 0
-
-for i in range(0, Max):
-    if i % 10000:
-        print(i, end=",\t")
-    value = rand.randomUniform()
-    total += value
-    TP = np.array([value])
-    a = np.append(a, TP)
-
-print(total / Max)
-plt.hist(a, bins=80)
-plt.show()
+# print("Start")
+# rand = PRNG()
+# a = np.array([])
+# Max = 1000000
+# total = 0
+#
+# for i in range(0, Max):
+#     if i % 10000:
+#         print(i, end=",\t")
+#     value = rand.randomUniform()
+#     total += value
+#     TP = np.array([value])
+#     a = np.append(a, TP)
+#
+# print(total / Max)
+# plt.hist(a, bins=80)
+# plt.show()
 # ----
