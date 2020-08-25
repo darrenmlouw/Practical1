@@ -14,17 +14,6 @@ qam4Dict = {
     "11": [1, 1]
 }
 
-psk8Dict = {
-    "000": [0, 0, 0],
-    "001": [0, 0, 1],
-    "010": [0, 1, 0],
-    "011": [0, 1, 1],
-    "100": [1, 0, 0],
-    "101": [1, 0, 1],
-    "110": [1, 1, 0],
-    "111": [1, 1, 1]
-}
-
 dictionary = {
     "0000": [0, 0, 0, 0],
     "0001": [0, 0, 0, 1],
@@ -211,8 +200,8 @@ def map4QAM():
     x = []
     for i in range(-4, 13):
         x.append(i)
-    plt.semilogy(x, QAM4.BER, 'g--', label="4QAM BER")
-    plt.semilogy(x, QAM4.SER, 'g-', label="4QAM SER")
+    plt.semilogy(x, QAM4.BER, 'r--', label="4QAM BER")
+    plt.semilogy(x, QAM4.SER, 'r-', label="4QAM SER")
 
 
 def map8PSK():
@@ -379,10 +368,10 @@ def map16QAM():
 # Increase number of bits in class instances above to create better line
 # Uncomment the function in which you wish to call
 print("start")
-# mapBPSK()
-# map4QAM()
-# map8PSK()
-# map16QAM()
+mapBPSK()
+map4QAM()
+map8PSK()
+map16QAM()
 print("Done")
 
 # Plotting the Graphs using semilogy
