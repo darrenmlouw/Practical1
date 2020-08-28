@@ -4,8 +4,14 @@ import math
 import matplotlib.pyplot as plt
 import cmath
 from numpy import linspace, asarray
+import time
 
 uniform = question_1.PRNG()
+
+bpskDict ={
+    "0": [0],
+    "1": [1]
+}
 
 qam4Dict = {
     "00": [0, 0],
@@ -92,7 +98,15 @@ def mapBPSK():
             BPSK.symbols.append(-1)
 
     for i in range(-4, 13):
+        start_time = time.time()
         print(i)
+
+        BPSK.bitErrorCount = 0
+        BPSK.symErrorCount = 0
+        BPSK.transmittedBits = []
+        BPSK.transmittedSymbols = []
+        BPSK.rk = []
+
         for j in range(0, BPSK.total):
             # Adding AWGN
             BPSK.sigma = 1 / (math.sqrt(10 ** (i / 10) * 2 * math.log(BPSK.M, 2)))
@@ -117,20 +131,18 @@ def mapBPSK():
 
         BPSK.SER.append(BPSK.symErrorCount / BPSK.total)
         BPSK.BER.append(BPSK.bitErrorCount / BPSK.total)
-        # print(BPSK.SER)
-        # print(BPSK.BER)
-        # print()
 
-        BPSK.bitErrorCount = 0
-        BPSK.symErrorCount = 0
-        BPSK.transmittedBits = []
-        BPSK.transmittedSymbols = []
-        BPSK.rk = []
+        # print(time.time() - start_time)
+
+        # Scatter Plot
+        # y = [i] * BPSK.total
+        # plt.scatter(BPSK.rk, y, alpha=0.05)
 
     x = []
     for i in range(-4, 13):
         x.append(i)
-    plt.semilogy(x, BPSK.SER, 'b', label="BPSK (BER/SER)")
+    plt.semilogy(x, BPSK.SER, 'y--', label="BPSK BER")
+    plt.semilogy(x, BPSK.BER, 'y-', label="BPSK SER")
 
 
 def map4QAM():
@@ -140,7 +152,6 @@ def map4QAM():
         QAM4.binary()
         duo[i % 2] = QAM4.bits[i]
         if (i % 2 + 1) == 2:
-            # print(duo)
             if duo[0] == 0 and duo[1] == 0:
                 QAM4.symbols.append(complex(1 / math.sqrt(2), 1 / math.sqrt(2)))
 
@@ -153,12 +164,22 @@ def map4QAM():
             elif duo[0] == 1 and duo[1] == 0:
                 QAM4.symbols.append(complex(1 / math.sqrt(2), -1 / math.sqrt(2)))
 
-    # print(QAM4.symbols)
+    # ScatterPlots
+    # fig, axs = plt.subplots(4, 5, sharex='col', sharey='row')
+    # fig.subplots_adjust(hspace=0.001, wspace=0.001)
+    # axs = axs.ravel()
+
     for i in range(-4, 13):
         print(i)
+        QAM4.symErrorCount = 0
+        QAM4.bitErrorCount = 0
+        QAM4.transmittedBits = []
+        QAM4.transmittedSymbols = []
+        QAM4.rk = []
+
         for j in range(int(QAM4.total / 2)):
             # Adding Gaussian Noise
-            QAM4.sigma = 1 / (math.sqrt(10 ** (i / 10) * 2 * math.log2(QAM4.M)))
+            QAM4.sigma = 1 / (math.sqrt(10 ** (i / 10) * 2 * math.log(QAM4.M, 2)))
             QAM4.rk.append(QAM4.symbols[j] + QAM4.sigma * complex(norm.randomNormal(), norm.randomNormal()))
 
             # Calculating the Euclidean Distance to each point
@@ -185,6 +206,17 @@ def map4QAM():
 
             QAM4.transmittedBits.extend(qam4Dict.get(tempSymbol))
 
+            x = []
+            y = []
+
+        # Subplots
+        # for l in range(0, len(QAM4.rk)):
+        #     x.append(QAM4.rk[l].real)
+        #     y.append(QAM4.rk[l].imag)
+        #
+        # axs[i+4].scatter(x, y, marker=".", alpha = 0.05, label=str(i), color='k')
+        # axs[i+4].legend( loc="upper right", framealpha=0)
+
         # Calculating bit error
         for j in range(QAM4.total):
             if QAM4.bits[j] != QAM4.transmittedBits[j]:
@@ -200,14 +232,7 @@ def map4QAM():
                     QAM4.symErrorCount += 1
 
         QAM4.SER.append(QAM4.symErrorCount / (QAM4.total / 2))
-
         QAM4.BER.append(QAM4.bitErrorCount / QAM4.total)
-
-        QAM4.symErrorCount = 0
-        QAM4.bitErrorCount = 0
-        QAM4.transmittedBits = []
-        QAM4.transmittedSymbols = []
-        QAM4.rk = []
 
     # Plotting the SER and BER for 4QAM
     x = []
@@ -248,29 +273,10 @@ def map8PSK():
             elif tri[0] == 1 and tri[1] == 0 and tri[2] == 0:
                 PSK8.symbols.append(complex(1 / math.sqrt(2), -1 / math.sqrt(2)))
 
-            # if tri[0] == 0 and tri[1] == 0 and tri[2] == 0:
-            #     PSK8.symbols.append(complex(1, 0))
-            #
-            # elif tri[0] == 1 and tri[1] == 0 and tri[2] == 0:
-            #     PSK8.symbols.append(complex(1 / math.sqrt(2), 1 / math.sqrt(2)))
-            #
-            # elif tri[0] == 1 and tri[1] == 1 and tri[2] == 0:
-            #     PSK8.symbols.append(complex(0, 1))
-            #
-            # elif tri[0] == 0 and tri[1] == 1 and tri[2] == 0:
-            #     PSK8.symbols.append(complex(-1 / math.sqrt(2), 1 / math.sqrt(2)))
-            #
-            # elif tri[0] == 0 and tri[1] == 1 and tri[2] == 1:
-            #     PSK8.symbols.append(complex(-1, 0))
-            #
-            # elif tri[0] == 1 and tri[1] == 1 and tri[2] == 1:
-            #     PSK8.symbols.append(complex(-1 / math.sqrt(2), -1 / math.sqrt(2)))
-            #
-            # elif tri[0] == 1 and tri[1] == 0 and tri[2] == 1:
-            #     PSK8.symbols.append(complex(0, -1))
-            #
-            # elif tri[0] == 0 and tri[1] == 0 and tri[2] == 1:
-            #     PSK8.symbols.append(complex(1 / math.sqrt(2), -1 / math.sqrt(2)))
+    # Subplots
+    # fig, axs = plt.subplots(4, 5, sharex='col', sharey='row')
+    # fig.subplots_adjust(hspace=0.001, wspace=0.001)
+    # axs = axs.ravel()
 
     for i in range(-4, 13):
         print(i)
@@ -327,6 +333,17 @@ def map8PSK():
 
             PSK8.transmittedBits.extend(psk8Dict.get(tempSymbol))
 
+            x = []
+            y = []
+
+        # Subplots
+        # for l in range(0, len(PSK8.rk)):
+        #     x.append(PSK8.rk[l].real)
+        #     y.append(PSK8.rk[l].imag)
+        #
+        # axs[i+4].scatter(x, y, marker=".", alpha = 0.05, label=str(i), color='k')
+        # axs[i+4].legend(loc="upper right", framealpha=0)
+
         # Calculating bit error
         for j in range(PSK8.total):
             if PSK8.bits[j] != PSK8.transmittedBits[j]:
@@ -351,7 +368,7 @@ def map8PSK():
         PSK8.transmittedSymbols = []
         PSK8.rk = []
 
-    # # Plotting the SER and BER for 8PSK
+    # Plotting the SER and BER for 8PSK
     x = []
     for i in range(-4, 13):
         x.append(i)
@@ -399,9 +416,10 @@ def map16QAM():
             elif quad[0] == 1 and quad[1] == 1 and quad[2] == 1 and quad[3] == 1:
                 QAM16.symbols.append(complex(math.sqrt(2) / 6, -math.sqrt(2) / 6))
 
-    # print(QAM16.bits)
-    # print(QAM16.symbols)
-    # print(len(QAM16.symbols))
+    # Subplots
+    # fig, axs = plt.subplots(4, 5, sharex='col', sharey='row')
+    # fig.subplots_adjust(hspace=0.001, wspace=0.001)
+    # axs = axs.ravel()
 
     for i in range(-4, 13):
         print(i)
@@ -479,6 +497,16 @@ def map16QAM():
 
             QAM16.transmittedBits.extend(dictionary.get(tempSym))
 
+            x = []
+            y = []
+
+        # Subplots
+        # for l in range(0, len(QAM16.rk)):
+        #     x.append(QAM16.rk[l].real)
+        #     y.append(QAM16.rk[l].imag)
+        # axs[i + 4].scatter(x, y, marker=".", alpha=0.05, label=str(i), color='k')
+        # axs[i + 4].legend(loc="upper right", framealpha=0)
+
         for j in range(0, QAM16.total):
             if QAM16.bits[j] != QAM16.transmittedBits[j]:
                 QAM16.bitErrorCount += 1
@@ -495,13 +523,6 @@ def map16QAM():
         QAM16.SER.append(QAM16.symErrorCount / (QAM16.total / 4))
 
         QAM16.BER.append(QAM16.bitErrorCount / QAM16.total)
-
-        # print(QAM16.BER)
-        # print(QAM16.symbols)
-        # print(QAM16.transmittedSymbols)
-        # print(QAM16.bits)
-        # print(QAM16.transmittedBits)
-        # print()
 
         QAM16.symErrorCount = 0
         QAM16.bitErrorCount = 0
@@ -527,9 +548,12 @@ print("Done 4QAM")
 map8PSK()
 print("Done 8PSK")
 map16QAM()
+
 # Plotting the Graphs using semilogy
 plt.xlabel("Eb/No (dB)")
 plt.ylabel("BER and SER")
 plt.legend()
+
 plt.show()
+
 

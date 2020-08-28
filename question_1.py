@@ -1,6 +1,7 @@
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+import statistics
 
 
 class PRNG:
@@ -35,19 +36,19 @@ class PRNG:
 # UNCOMMENT UNTIL ----
 # print("Start")
 # rand = PRNG()
-# a = np.array([])
-# Max = 1000000
+# Array = []
+# Max = 6000000
 # total = 0
 #
 # for i in range(0, Max):
-#     # if i % 10000:
-#     #     print(i, end=",\t")
-#     value = rand.randomUniform()
-#     total += value
-#     TP = np.array([value])
-#     a = np.append(a, TP)
+#     Array.append(rand.randomUniform())
 #
-# print(total / Max)
-# plt.hist(a, bins=80)
+# plt.hist(Array, bins=125, density=True)
+# plt.figtext(0.83, 0.77, "\u03BC: "+str(round(statistics.mean(Array), 6)), ha='right')
+# plt.figtext(0.83, 0.73, "\u03C3: " + str(round(statistics.stdev(Array), 6)), ha='right')
+# plt.figtext(0.83, 0.69, "\u03C3 \u00b2: " + str(round(statistics.variance(Array), 6)), ha='right')
+# plt.xlabel("x")
+# plt.ylabel("Probability Density")
+#
 # plt.show()
 # ----

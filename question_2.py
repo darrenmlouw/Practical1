@@ -2,6 +2,7 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 import question_1
+import statistics
 
 rand = question_1.PRNG()
 
@@ -42,9 +43,8 @@ class GRNG:
                     3 - self.x * self.x) - 2.15787544 * (1.5 - abs(self.x))
 
         elif 1 < abs(self.x) < 1.5:
-            self.g3 = 17.49731196 * math.exp(-0.5 * self.x * self.x) - 2.36785163 * pow(3 - abs(self.x),
-                                                                                        2) - 2.15787544 * (
-                              1.5 - abs(self.x))
+            self.g3 = 17.49731196 * math.exp(-0.5 * self.x * self.x) - 2.36785163 * pow(3 - abs(self.x), 2) -\
+                      2.15787544 * (1.5 - abs(self.x))
 
         elif 1.5 < abs(self.x) < 3:
             self.g3 = 17.49731196 * math.exp(-0.5 * self.x * self.x) - 2.36785163 * pow(3 - abs(self.x), 2)
@@ -86,16 +86,21 @@ class GRNG:
 
         return self.random
 
-
 # CODE FOR THE PDF GRAPH (Leave out if not in use)
 # UNCOMMENT UNTIL ----
-# normal = GRNG()
-# Array = []
-# Max = 1000000
-# total = 0
-# for i in range(0, Max):
-#     Array.append(normal.randomNormal())
-#
-# plt.hist(Array, bins=80, density=True)
-# plt.show()
+normal = GRNG()
+Array = []
+Max = 4000000 #use 4mil
+total = 0
+for i in range(0, Max):
+    Array.append(normal.randomNormal())
+
+plt.hist(Array, bins=125, density=True)
+plt.figtext(0.85, 0.8, "\u03BC: "+str(round(statistics.mean(Array), 6)), ha='right')
+plt.figtext(0.85, 0.76, "\u03C3: " + str(round(statistics.stdev(Array), 6)), ha='right')
+plt.figtext(0.85, 0.72, "\u03C3 \u00b2: " + str(round(statistics.variance(Array), 6)), ha='right')
+plt.xlabel("x")
+plt.ylabel("Probability Density")
+
+plt.show()
 # ----
