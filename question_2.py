@@ -88,19 +88,19 @@ class GRNG:
 
 # CODE FOR THE PDF GRAPH (Leave out if not in use)
 # UNCOMMENT UNTIL ----
-normal = GRNG()
-Array = []
-Max = 4000000 #use 4mil
-total = 0
-for i in range(0, Max):
-    Array.append(normal.randomNormal())
-
-plt.hist(Array, bins=125, density=True)
-plt.figtext(0.85, 0.8, "\u03BC: "+str(round(statistics.mean(Array), 6)), ha='right')
-plt.figtext(0.85, 0.76, "\u03C3: " + str(round(statistics.stdev(Array), 6)), ha='right')
-plt.figtext(0.85, 0.72, "\u03C3 \u00b2: " + str(round(statistics.variance(Array), 6)), ha='right')
-plt.xlabel("x")
-plt.ylabel("Probability Density")
-
-plt.show()
+# normal = GRNG()
+# Array = []
+# Max = 4000000 #use 4mil
+# total = 0
+# for i in range(0, Max):
+#     Array.append(normal.randomNormal())
+#
+# plt.hist(Array, bins=125, density=True)
+# plt.figtext(0.85, 0.8, "\u03BC: "+str(round(statistics.mean(Array), 6)), ha='right')
+# plt.figtext(0.85, 0.76, "\u03C3: " + str(round(statistics.stdev(Array), 6)), ha='right')
+# plt.figtext(0.85, 0.72, "\u03C3 \u00b2: " + str(round(statistics.variance(Array), 6)), ha='right')
+# plt.xlabel("x")
+# plt.ylabel("Probability Density")
+#
+# plt.show()
 # ----
