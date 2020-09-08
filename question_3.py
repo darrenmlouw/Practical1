@@ -80,10 +80,10 @@ class Modulation:
 norm = question_2.GRNG()
 
 # Class Instances (total number of bits, and the M value)
-BPSK = Modulation(1000000, 2)
-QAM4 = Modulation(1000000, 4)
-PSK8 = Modulation(1000002, 8)
-QAM16 = Modulation(1000000, 16)
+BPSK = Modulation(10000, 2)
+QAM4 = Modulation(10000, 4)
+PSK8 = Modulation(10002, 8)
+QAM16 = Modulation(10000, 16)
 
 
 # new comment
